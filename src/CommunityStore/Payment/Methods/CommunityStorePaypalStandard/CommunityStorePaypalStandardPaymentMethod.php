@@ -59,7 +59,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
     public function validate($args,$e)
     {
         $pm = StorePaymentMethod::getByHandle('community_store_paypal_standard');
-        if($args['paymentMethodEnabled'][$pm->getPaymentMethodID()]==1){
+        if($args['paymentMethodEnabled'][$pm->getID()]==1){
             if($args['paypalEmail']==""){
                 $e->add(t("PayPal Email must be set"));
             }
@@ -201,4 +201,8 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
     }
 
 
+    public function getName()
+    {
+        return 'Paypal Standard';
+    }
 }
