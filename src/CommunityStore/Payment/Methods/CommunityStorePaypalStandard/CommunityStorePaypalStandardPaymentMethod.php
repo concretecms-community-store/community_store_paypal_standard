@@ -16,8 +16,6 @@ use \Concrete\Package\CommunityStore\Src\CommunityStore\Utilities\Calculator as 
 
 class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
 {
-    public $external = true;
-    
     public function dashboardForm()
     {
         $this->set('paypalEmail',Config::get('community_store_paypal_standard.paypalEmail'));
@@ -204,5 +202,9 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
     public function getName()
     {
         return 'Paypal Standard';
+    }
+
+    public function isExternal() {
+        return true;
     }
 }
