@@ -48,7 +48,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $this->set('form',Core::make("helper/form"));
     }
     
-    public function save($data)
+    public function save(array $data = [])
     {
         Config::save('community_store_paypal_standard.paypalEmail',$data['paypalEmail']);
         Config::save('community_store_paypal_standard.paypalTestMode',$data['paypalTestMode']);
