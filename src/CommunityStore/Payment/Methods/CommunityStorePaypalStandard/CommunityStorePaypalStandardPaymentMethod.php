@@ -65,10 +65,6 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         return $e;
         
     }
-    public function checkoutForm()
-    {
-        //nada
-    }
     public function redirectForm()
     {
         $customer = new StoreCustomer();
