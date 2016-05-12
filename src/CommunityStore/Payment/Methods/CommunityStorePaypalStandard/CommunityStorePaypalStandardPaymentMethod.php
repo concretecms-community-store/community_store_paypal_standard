@@ -165,7 +165,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $res = curl_exec($ch);
         if (curl_errno($ch) != 0) // cURL error
         {
-            Log::addEntry("Can't connect to PayPal to validate IPN message: " . curl_error($ch));
+            Log::addError("Can't connect to PayPal to validate IPN message: " . curl_error($ch));
             curl_close($ch);
             exit;
         } else {
@@ -185,7 +185,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         } elseif (strcmp ($res, "INVALID") == 0) {
             // log for manual investigation
             // Add business logic here which deals with invalid IPN messages
-            Log::addEntry("Invalid IPN: $req");
+            Log::addError("Invalid IPN: $req");
         }
     }
 
