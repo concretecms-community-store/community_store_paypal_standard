@@ -47,7 +47,7 @@ class Controller extends Package
     }
 
     public function on_start() {
-        Route::register('/checkout/paypalresponse','\Concrete\Package\CommunityStorePaymentStandard\Src\CommunityStore\Payment\Methods\CommunityStorePaymentStandard\CommunityStorePaypalStandardPaymentMethod::validateCompletion');
+        Route::register('/checkout/paypalresponse','\Concrete\Package\CommunityStorePaypalStandard\Src\CommunityStore\Payment\Methods\CommunityStorePaypalStandard\CommunityStorePaypalStandardPaymentMethod::validateCompletion');
     }
 }
 ?>
