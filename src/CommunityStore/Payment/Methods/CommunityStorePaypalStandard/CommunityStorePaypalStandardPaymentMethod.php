@@ -68,7 +68,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
     public function redirectForm()
     {
         $customer = new StoreCustomer();
-        $totals = StoreCalculator::getTotals();
+
         $paypalEmail = Config::get('community_store_paypal_standard.paypalEmail');
         $order = StoreOrder::getByID(Session::get('orderID'));
         $this->set('paypalEmail',$paypalEmail);
@@ -78,6 +78,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $this->set('notifyURL',URL::to('/checkout/paypalresponse'));
         $this->set('orderID',$order->getOrderID());
         $this->set('returnURL',URL::to('/checkout/complete'));
+        $this->set('cancelReturn',URL::to('/checkout'));
         $currencyCode = Config::get('community_store_paypal_standard.paypalCurrency');
         if(!$currencyCode){
             $currencyCode = "USD";
