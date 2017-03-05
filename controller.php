@@ -7,8 +7,6 @@ use Route;
 use Whoops\Exception\ErrorException;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
 
-defined('C5_EXECUTE') or die(_("Access Denied."));
-
 class Controller extends Package
 {
     protected $pkgHandle = 'community_store_paypal_standard';
