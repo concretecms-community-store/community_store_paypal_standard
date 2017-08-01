@@ -149,7 +149,9 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
         }
-        
+
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PAYPALIPNCALLBACK');
+
         // CONFIG: Optional proxy configuration
         //curl_setopt($ch, CURLOPT_PROXY, $proxy);
         //curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
