@@ -14,3 +14,9 @@ extract($vars);
     <label><?= t("PayPal E-mail")?></label>
     <input type="text" name="paypalEmail" value="<?= $paypalEmail?>" class="form-control">
 </div>
+
+<div class="form-group">
+    <label><?= t("Transaction Description")?></label>
+    <?= $form->select('paypalTransactionDescription',array('order'=>'Show as: "Order from ' . Config::get('concrete.site') .'"' ,'products'=>'List of products and quantities'),$paypalTransactionDescription);?>
+
+</div>

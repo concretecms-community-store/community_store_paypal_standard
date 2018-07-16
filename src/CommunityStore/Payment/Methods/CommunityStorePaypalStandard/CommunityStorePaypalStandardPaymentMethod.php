@@ -21,6 +21,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $this->set('paypalEmail',Config::get('community_store_paypal_standard.paypalEmail'));
         $this->set('paypalTestMode',Config::get('community_store_paypal_standard.paypalTestMode'));
         $this->set('paypalCurrency',Config::get('community_store_paypal_standard.paypalCurrency'));
+        $this->set('paypalTransactionDescription',Config::get('community_store_paypal_standard.paypalTransactionDescription'));
         $currencies = array(
             'AUD' => "Australian Dollar",
             'CAD' => "Canadian Dollar",
@@ -53,6 +54,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         Config::save('community_store_paypal_standard.paypalEmail',$data['paypalEmail']);
         Config::save('community_store_paypal_standard.paypalTestMode',$data['paypalTestMode']);
         Config::save('community_store_paypal_standard.paypalCurrency',$data['paypalCurrency']);
+        Config::save('community_store_paypal_standard.paypalTransactionDescription',$data['paypalTransactionDescription']);
     }
     public function validate($args,$e)
     {
@@ -72,13 +74,35 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $paypalEmail = Config::get('community_store_paypal_standard.paypalEmail');
         $order = StoreOrder::getByID(Session::get('orderID'));
         $this->set('paypalEmail',$paypalEmail);
+        $siteName = Config::get('concrete.site');
         $this->set('siteName',Config::get('concrete.site'));
         $this->set('customer', $customer);
         $this->set('total',$order->getTotal());
         $this->set('notifyURL',URL::to('/checkout/paypalresponse'));
         $this->set('orderID',$order->getOrderID());
+        $this->set('order',$order);
         $this->set('returnURL',URL::to('/checkout/complete'));
         $this->set('cancelReturn',URL::to('/checkout'));
+        $transactionDescriptionOption = Config::get('community_store_paypal_standard.paypalTransactionDescription');
+        $transactionDescription = t('Order from %s', $siteName);
+
+        if ($transactionDescriptionOption == 'products') {
+            $transactionDescription = '';
+            $products = array();
+
+            $items = $order->getOrderItems();
+            if ($items) {
+                foreach ($items as $item) {
+                    $products[] = $item->getProductName() . ($item->getSKU() ? '(' . $item->getSKU() . ')' : '') .  ($item->getQty() > 1 ? ' x' . $item->getQty() : '') ;
+                }
+
+                $transactionDescription = implode(', ' , $products);
+                $transactionDescription = substr($transactionDescription, 0, 127);
+            }
+        }
+
+        $this->set('transactionDescription', $transactionDescription);
+
         $currencyCode = Config::get('community_store_paypal_standard.paypalCurrency');
         if(!$currencyCode){
             $currencyCode = "USD";

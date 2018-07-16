@@ -16,7 +16,7 @@ extract($vars);
 <input type="hidden" name="currency_code" value="<?= $currencyCode?>">
 <input type="hidden" name="business" value="<?= $paypalEmail?>">
 <input type="hidden" name="notify_url" value="<?= $notifyURL?>">
-<input type="hidden" name="item_name" value="<?= t('Order from %s', $siteName)?>">
+<input type="hidden" name="item_name" value="<?= h($transactionDescription); ?>">
 <input type="hidden" name="invoice" value="<?= $orderID?>">
 <input type="hidden" name="return" value="<?= $returnURL?>">
 <input type="hidden" name="cancel_return" value="<?= $cancelReturn?>">
