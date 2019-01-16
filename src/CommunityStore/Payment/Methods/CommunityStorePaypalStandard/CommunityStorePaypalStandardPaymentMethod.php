@@ -169,7 +169,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-        if(DEBUG == true) {
+        if(defined('DEBUG') && DEBUG == true) {
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
         }
