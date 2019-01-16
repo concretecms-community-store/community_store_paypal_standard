@@ -11,7 +11,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'community_store_paypal_standard';
     protected $appVersionRequired = '5.7.2';
-    protected $pkgVersion = '1.1';
+    protected $pkgVersion = '1.2';
 
     public function getPackageDescription()
     {
