@@ -12,7 +12,8 @@ use \Concrete\Package\CommunityStore\Src\CommunityStore\Cart\Cart as StoreCart;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order as StoreOrder;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Customer\Customer as StoreCustomer;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
-use \Concrete\Package\CommunityStore\Src\CommunityStore\Utilities\Calculator as StoreCalculator;
+use Concrete\Core\Multilingual\Page\Section\Section;
+
 
 class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
 {
@@ -79,10 +80,22 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $this->set('customer', $customer);
         $this->set('total',$order->getTotal());
         $this->set('notifyURL',URL::to('/checkout/paypalresponse'));
+
         $this->set('orderID',$order->getOrderID());
         $this->set('order',$order);
-        $this->set('returnURL',URL::to('/checkout/complete'));
-        $this->set('cancelReturn',URL::to('/checkout'));
+
+
+        $c = \Page::getCurrentPage();
+        $al = Section::getBySectionOfSite($c);
+        $langpath = '';
+        if ($al !== null) {
+            $langpath =  $al->getCollectionHandle();
+        }
+
+        $this->set('langpath', $langpath);
+        $this->set('returnURL',URL::to($langpath . '/checkout/complete'));
+        $this->set('cancelReturn',URL::to($langpath . '/checkout'));
+
         $transactionDescriptionOption = Config::get('community_store_paypal_standard.paypalTransactionDescription');
         $transactionDescription = t('Order from %s', $siteName);
 
