@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: community_store_paypal_standard 1.2\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-06-26T20:28:45+09:30\n"
+"PO-Revision-Date: 2019-06-26T20:28:45+09:30\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: packages/community_store_paypal_standard/controller.php:18
+msgid "Paypal Standard Payment Method for Community Store"
+msgstr ""
+
+#: packages/community_store_paypal_standard/controller.php:23
+msgid "Paypal Payment Method"
+msgstr ""
+
+#: packages/community_store_paypal_standard/controller.php:30
+msgid "This package requires that Community Store be installed"
+msgstr ""
+
+#: packages/community_store_paypal_standard/elements/community_store_paypal_standard/checkout_form.php:5
+msgid "Click \"Complete Order\" to Proceed to the PayPal Website."
+msgstr ""
+
+#: packages/community_store_paypal_standard/elements/community_store_paypal_standard/dashboard_form.php:6
+msgid "Test Mode"
+msgstr ""
+
+#: packages/community_store_paypal_standard/elements/community_store_paypal_standard/dashboard_form.php:10
+msgid "Currency"
+msgstr ""
+
+#: packages/community_store_paypal_standard/elements/community_store_paypal_standard/dashboard_form.php:14
+msgid "PayPal E-mail"
+msgstr ""
+
+#: packages/community_store_paypal_standard/elements/community_store_paypal_standard/dashboard_form.php:19
+msgid "Transaction Description"
+msgstr ""
+
+#: packages/community_store_paypal_standard/src/CommunityStore/Payment/Methods/CommunityStorePaypalStandard/CommunityStorePaypalStandardPaymentMethod.php:65
+msgid "PayPal Email must be set"
+msgstr ""
+
+#: packages/community_store_paypal_standard/src/CommunityStore/Payment/Methods/CommunityStorePaypalStandard/CommunityStorePaypalStandardPaymentMethod.php:100
+msgid "Order from %s"
+msgstr ""
