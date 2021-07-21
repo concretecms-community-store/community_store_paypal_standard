@@ -49,7 +49,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $this->set('currencies',$currencies);
         $this->set('form',Core::make("helper/form"));
     }
-    
+
     public function save(array $data = [])
     {
         Config::save('community_store_paypal_standard.paypalEmail',$data['paypalEmail']);
@@ -66,7 +66,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
             }
         }
         return $e;
-        
+
     }
     public function redirectForm()
     {
@@ -122,13 +122,13 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         }
         $this->set('currencyCode',$currencyCode);
     }
-    
+
     public function submitPayment()
     {
-        
+
         //nothing to do except return true
         return array('error'=>0, 'transactionReference'=>'');
-        
+
     }
     public function getAction()
     {
@@ -195,7 +195,7 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         // Set TCP timeout to 30 seconds
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
-        
+
         // CONFIG: Please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path
         // of the certificate as shown below. Ensure the file is readable by the webserver.
         // This is mandatory for some environments.
@@ -220,8 +220,12 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $res = trim(end($tokens));
         if (strcmp ($res, "VERIFIED") == 0) {
             $order = StoreOrder::getByID($_POST['invoice']);
-            $order->completeOrder($_POST['txn_id']);
-            $order->updateStatus(StoreOrderStatus::getStartingStatus()->getHandle());
+            if ($order) {
+                $order->completeOrder($_POST['txn_id']);
+                $order->updateStatus(StoreOrderStatus::getStartingStatus()->getHandle());
+            } else {
+                Log::addWarning("IPN Warning: Order " . $_POST['invoice'] . " not found");
+            }
         } elseif (strcmp ($res, "INVALID") == 0) {
             // log for manual investigation
             // Add business logic here which deals with invalid IPN messages
