@@ -2,16 +2,21 @@
 
 namespace Concrete\Package\CommunityStorePaypalStandard;
 
-use Package;
-use Route;
+use Concrete\Core\Package\Package;
+use Concrete\Core\Support\Facade\Route;
 use Whoops\Exception\ErrorException;
-use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
+use Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
 
 class Controller extends Package
 {
     protected $pkgHandle = 'community_store_paypal_standard';
-    protected $appVersionRequired = '5.7.2';
-    protected $pkgVersion = '1.2';
+    protected $appVersionRequired = '8.0';
+    protected $pkgVersion = '1.2.1';
+    protected $packageDependencies = ['community_store'=>'2.0'];
+
+    protected $pkgAutoloaderRegistries = [
+        'src/CommunityStore' => '\Concrete\Package\CommunityStorePaypalStandard\Src\CommunityStore',
+    ];
 
     public function getPackageDescription()
     {
@@ -25,7 +30,8 @@ class Controller extends Package
 
     public function install()
     {
-        $installed = Package::getInstalledHandles();
+        $installed = $this->app->make('Concrete\Core\Package\PackageService')->getInstalledHandles();
+
         if(!(is_array($installed) && in_array('community_store',$installed)) ) {
             throw new ErrorException(t('This package requires that Community Store be installed'));
         } else {

@@ -167,9 +167,9 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         // Post IPN data back to PayPal to validate the IPN data is genuine
         // Without this step anyone can fake IPN data
         if(Config::get('community_store_paypal_standard.paypalTestMode') == true) {
-            $paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $paypal_url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
         } else {
-            $paypal_url = "https://www.paypal.com/cgi-bin/webscr";
+            $paypal_url = "https://ipnpb.paypal.com/cgi-bin/webscr";
         }
         $ch = curl_init($paypal_url);
         if ($ch == FALSE) {
@@ -182,19 +182,17 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-        if(defined('DEBUG') && DEBUG == true) {
-            curl_setopt($ch, CURLOPT_HEADER, 1);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
-        }
-
-        curl_setopt($ch, CURLOPT_USERAGENT, 'PAYPALIPNCALLBACK');
 
         // CONFIG: Optional proxy configuration
         //curl_setopt($ch, CURLOPT_PROXY, $proxy);
         //curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
         // Set TCP timeout to 30 seconds
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'User-Agent: PHP-IPN-Verification-Script',
+            'Connection: Close',
+        ));
 
         // CONFIG: Please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path
         // of the certificate as shown below. Ensure the file is readable by the webserver.
@@ -219,13 +217,17 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
         $tokens = explode("\r\n\r\n", trim($res));
         $res = trim(end($tokens));
         if (strcmp ($res, "VERIFIED") == 0) {
-            $order = StoreOrder::getByID($_POST['invoice']);
-            if ($order) {
-                $order->completeOrder($_POST['txn_id']);
-                $order->updateStatus(StoreOrderStatus::getStartingStatus()->getHandle());
-            } else {
-                Log::addWarning("IPN Warning: Order " . $_POST['invoice'] . " not found");
+
+            if (isset($_POST['invoice']) && $_POST['invoice']) {
+                $order = StoreOrder::getByID($_POST['invoice']);
+                if ($order) {
+                    $order->completeOrder($_POST['txn_id']);
+                    $order->updateStatus(StoreOrderStatus::getStartingStatus()->getHandle());
+                } else {
+                    Log::addWarning("IPN Warning: Order " . $_POST['invoice'] . " not found");
+                }
             }
+
         } elseif (strcmp ($res, "INVALID") == 0) {
             // log for manual investigation
             // Add business logic here which deals with invalid IPN messages

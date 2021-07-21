@@ -1,7 +1,7 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 extract($vars);
 // Here we're setting up the form we're going to submit to paypal.
-// This form will automatically submit itself 
+// This form will automatically submit itself
 ?>
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="first_name" value="<?= $customer->getValue("billing_first_name")?>">
@@ -12,6 +12,7 @@ extract($vars);
 <input type="hidden" name="state" value="<?= $customer->getValue("billing_address")->state_province?>">
 <input type="hidden" name="zip" value="<?= $customer->getValue("billing_address")->postal_code?>">
 <input type="hidden" name="country" value="<?= $customer->getValue("billing_address")->country?>">
+<input type="hidden" name="email" value="<?= $customer->getEmail()?>">
 <input type="hidden" name="amount" value="<?= $total?>">
 <input type="hidden" name="currency_code" value="<?= $currencyCode?>">
 <input type="hidden" name="business" value="<?= $paypalEmail?>">
@@ -20,5 +21,3 @@ extract($vars);
 <input type="hidden" name="invoice" value="<?= $orderID?>">
 <input type="hidden" name="return" value="<?= $returnURL?>">
 <input type="hidden" name="cancel_return" value="<?= $cancelReturn?>">
-
-
