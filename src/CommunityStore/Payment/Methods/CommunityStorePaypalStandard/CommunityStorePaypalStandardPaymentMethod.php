@@ -154,17 +154,12 @@ class CommunityStorePaypalStandardPaymentMethod extends StorePaymentMethod
             }
             // read the post from PayPal system and add 'cmd'
             $req = 'cmd=_notify-validate';
-            if (function_exists('get_magic_quotes_gpc')) {
-                $get_magic_quotes_exists = true;
-            }
+
             foreach ($myPost as $key => $value) {
-                if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
-                    $value = urlencode(stripslashes($value));
-                } else {
-                    $value = urlencode($value);
-                }
+                $value = urlencode($value);
                 $req .= "&$key=$value";
             }
+
             // Post IPN data back to PayPal to validate the IPN data is genuine
             // Without this step anyone can fake IPN data
             if (Config::get('community_store_paypal_standard.paypalTestMode') == true) {
