@@ -1,5 +1,7 @@
-# community_store_paypal_standard
-Paypal Standard payments for Community Store for concrete5
+# Community Store Paypal Standard
+Paypal Standard payments for Community Store for Concrete CMS
+
+This is considred a legacy payment method, and is not recommended for new installations. The 'Paypal Checkout' payment method is recommended instead.
 
 Install Community Store First.
 
